@@ -53,7 +53,7 @@ function setup() {
 
 function draw() {
   // Nothing
-    sendCheckUpdates();
+    //sendCheckUpdates();
     //eval(codeString);
 }
 
@@ -98,6 +98,7 @@ function sendCheckUpdates() {
 function updateCode() {
     codeToSend = input.value();
     console.log(codeToSend);
+    sendCheckUpdates();
     // We are sending!
     //console.log("send code to append");
     //var data = "";
