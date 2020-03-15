@@ -6,6 +6,10 @@ var express = require('express');
 // Create the app
 var app = express();
 
+var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
+    ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+
+
 // Set up the server
 // process.env.PORT is related to deploying on heroku
 var server = app.listen(process.env.PORT || 8080, listen);
