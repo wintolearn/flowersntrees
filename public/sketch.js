@@ -1,3 +1,4 @@
+// Starter project credits below:
 // ITP Networked Media, Fall 2014
 // https://github.com/shiffman/itp-networked-media
 // Daniel Shiffman
@@ -9,14 +10,15 @@ var input;
 var codeToSend = "";
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(600, 600);
   background(0);
 
     input = createInput();
-    input.position(20, 65);
+    input.position(30, 255);
+    //input.width = 200;
 
-    button = createButton('submit');
-    button.position(input.x + input.width, 65);
+    button = createButton('submit code');
+    button.position(input.x + input.width+10, input.y);
     button.mousePressed(updateCode);
 
   // Start a socket connection to the server
@@ -41,12 +43,9 @@ function setup() {
         function(data) {
             //console.log("Got: " + data);
             codeString = data;
-
-            // Draw a blue circle
-            fill(0,0,255);
+            fill(255,0,0,120);
             eval(codeString);
-            //noStroke();
-            //ellipse(data.x, data.y, 20, 20);
+
         }
     );
 }
@@ -57,29 +56,7 @@ function draw() {
     //eval(codeString);
 }
 
-function mouseDragged() {
-  // Draw some white circles
-  fill(255);
-  noStroke();
-  ellipse(mouseX,mouseY,20,20);
-  // Send the mouse coordinates
-  sendmouse(mouseX,mouseY);
-}
 
-// Function for sending to the socket
-function sendmouse(xpos, ypos) {
-  // We are sending!
-  console.log("sendmouse: " + xpos + " " + ypos);
-
-  // Make a little object with  and y
-  var data = {
-    x: xpos,
-    y: ypos
-  };
-
-  // Send that object to the socket
-  socket.emit('mouse',data);
-}
 
 // Function to check for updates
 function sendCheckUpdates() {
@@ -99,12 +76,6 @@ function updateCode() {
     codeToSend = input.value();
     console.log(codeToSend);
     sendCheckUpdates();
-    // We are sending!
-    //console.log("send code to append");
-    //var data = "";
 
-    // Send that object to the socket
-    //socket.emit('checkUpdates',data);
-    //socket.emit('Append',data);
 
 }

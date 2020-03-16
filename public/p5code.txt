@@ -1,10 +1,10 @@
-  translate(200, 200);
+  translate(300, 300);
     for (counter = 0; counter < 180*60; counter += 137.507) {
     push();
     rotate(counter);
     translate(0, counter * 0.005);
-    ellipse(0,0,5, 35);
+    ellipse(0,0,10, 35);
     pop();
-  }
+    }
 //
-ellipse(0,0,100,100);ellipse(50,50,100,100);ellipse(-150,50,100,100);
+

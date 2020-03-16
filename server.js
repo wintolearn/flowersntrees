@@ -11,11 +11,10 @@ var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
 
 
 // Set up the server
-// process.env.PORT is related to deploying on heroku
+// process.env.PORT is related to deploying on heroku or openshift etc
 var server = app.listen(process.env.PORT || 8080, listen);
 
 var codeString;
-
 
 
 // This call back just tells us that the server has started
@@ -29,19 +28,12 @@ app.use(express.static('public'));
 
 fs = require('fs');
 
-/*
-fs.writeFile('public/helloworld.txt', 'Hello my friends!', function (err) {
-    if (err) return console.log(err);
-    console.log('Hello World > helloworld.txt');
-});
-*/
 
-fs.readFile('public/helloworld.txt','utf8', function (err,data) {
+fs.readFile('public/p5code.txt','utf8', function (err,data) {
     if (err) return console.log(err);
     codeString = data;
     console.log(codeString);
 });
-
 
 
 // WebSocket Portion
@@ -59,41 +51,23 @@ io.sockets.on('connection',
     // Let's try to send a code string
       io.sockets.emit('codeString', codeString);
 
-    // When this user emits, client side: socket.emit('otherevent',some data);
-    socket.on('mouse',
-      function(data) {
-        // Data comes in as whatever was sent, including objects
-        console.log("Received: 'mouse' " + data.x + " " + data.y);
-
-        // Send it to all other clients
-        socket.broadcast.emit('mouse', data);
-
-        // This is a way to send to everyone including sender
-        // io.sockets.emit('message', "this goes to everyone");
-
-      }
-    );
-
         socket.on('checkUpdates',
           function(data) {
               // Data comes in as whatever was sent, including objects
               console.log("Received: checkUpdates");
 
               if(data !== "") {
-                  fs.appendFile('public/helloworld.txt', data, function (err) {
+                  data = data + "\r\n" + "resetMatrix();" + "\r\n";
+                  fs.appendFile('public/p5code.txt', data, function (err) {
                       if (err) return console.log(err);
-                      //codeString = data;
-                      //console.log(codeString);
                   });
               }
 
-              fs.readFile('public/helloworld.txt','utf8', function (err,data) {
+              fs.readFile('public/p5code.txt','utf8', function (err,data) {
                   if (err) return console.log(err);
                   codeString = data;
-                  //console.log(codeString);
               });
               io.sockets.emit('codeString', codeString);
-
 
           }
       );

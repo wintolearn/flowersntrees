@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Sockets Example</title>
+    <title>flowersNtrees</title>
     <script type="text/javascript" src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
     <script type="text/javascript" src="sketch.js"></script>
 
@@ -15,10 +15,34 @@
     <style>
       body {
         padding: 20px;
+        font-family: 'Dosis', sans-serif;
       }
     </style>
+    <link href="https://fonts.googleapis.com/css?family=Dosis&display=swap" rel="stylesheet">
   </head>
   <body>
-  </form>
+  <h1>
+    flowersNtrees
+  </h1>
+  <h2>
+    Enter the p5 code for your flowers and trees. Do not include the setup or draw functions.
+  </h2>
+  <h4>
+    Sample code to copy and paste below (then click submit a few times):
+  </h4>
+  <h4>
+    fill(0,0,200,60);
+    translate(-100,-100);
+    for (counter = 0; counter < 180*60; counter += 137.507) {
+    push();
+    rotate(counter);
+    translate(0, counter * 0.002);
+    ellipse(0,0,15, 55);
+    pop();
+    }
+  </h4>
+  <br>
+
+
   </body>
 </html>
