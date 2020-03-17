@@ -29,13 +29,6 @@ app.use(express.static('public'));
 fs = require('fs');
 
 
-fs.readFile('public/p5code.txt','utf8', function (err,data) {
-    if (err) return console.log(err);
-    codeString = data;
-    console.log(codeString);
-});
-
-
 // WebSocket Portion
 // WebSockets work with the HTTP server
 var io = require('socket.io')(server);
@@ -48,8 +41,26 @@ io.sockets.on('connection',
 
     console.log("We have a new client: " + socket.id);
 
-    // Let's try to send a code string
-      io.sockets.emit('codeString', codeString);
+      fs.readFile('public/p5code.txt','utf8', function (err,data) {
+          if (err) return console.log(err);
+          codeString = data;
+          console.log(codeString);
+      });
+
+    // Load all the code and send to whoever just logged in
+      socket.emit('codeString', codeString);
+
+        socket.on('clearCode',function(data) {
+                fs.writeFile("public/p5code.txt", "translate(200,200);" + "\r\n",
+                    function (err) {
+                        if (err) {
+                            return console.log(err);
+                        }
+                        console.log("The file was cleared!");
+                    })
+            }
+
+        );
 
         socket.on('checkUpdates',
           function(data) {
@@ -63,11 +74,15 @@ io.sockets.on('connection',
                   });
               }
 
+              /*
               fs.readFile('public/p5code.txt','utf8', function (err,data) {
                   if (err) return console.log(err);
                   codeString = data;
               });
-              io.sockets.emit('codeString', codeString);
+              */
+
+              //send the code to all the other clients
+              socket.broadcast.emit('codeString', data);
 
           }
       );
